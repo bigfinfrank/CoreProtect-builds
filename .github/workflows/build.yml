@@ -26,3 +26,11 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build
         run: mvn -B verify
+      - name: Create GitHub Release with JAR
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./target/CoreProtect-*.jar
+          tag_name: commit-${{ github.sha }}
+          name: ${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
